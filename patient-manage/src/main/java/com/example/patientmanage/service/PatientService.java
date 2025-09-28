@@ -3,6 +3,7 @@ package com.example.patientmanage.service;/*  gaajiCode
     26/09/2025
     */
 
+import com.example.patientmanage.dto.PatientRequestDTO;
 import com.example.patientmanage.dto.PatientResponseDTO;
 import com.example.patientmanage.model.Patinet;
 import com.example.patientmanage.repository.PatientRepository;
@@ -38,6 +39,26 @@ public class PatientService {
                 .map(patient -> modelMapper.map(patient, PatientResponseDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+//    public PatientRequestDTO createPatient(PatientRequestDTO patientRequestDTO){
+//        Patinet patinet=patientRepository.save(PatientMapper.toModel(patientRequestDTO));
+//
+//        return PatinetMapper.toDTO(patinet);
+//    }
+
+    public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
+        // DTO -> Entity
+        Patinet patient = modelMapper.map(patientRequestDTO, Patinet.class);
+
+        // Save to DB
+        Patinet savedPatient = patientRepository.save(patient);
+
+        // Entity -> ResponseDTO
+        return modelMapper.map(savedPatient, PatientResponseDTO.class);
+    }
+
+
 
 
 
